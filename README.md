@@ -2,7 +2,9 @@
 
 Site de uma barbearia com espaço feminino e **agendamento online de verdade**: o cliente escolhe o serviço, o dia e um horário livre, e o profissional acompanha tudo numa agenda própria.
 
-![Página inicial da Royal Cut](docs/inicio.webp)
+**Site no ar: [site-barbearia-royal-cut.vercel.app](https://site-barbearia-royal-cut.vercel.app)**
+
+[![Página inicial da Royal Cut](docs/inicio.webp)](https://site-barbearia-royal-cut.vercel.app)
 
 > Projeto de portfólio. A barbearia, o endereço, as fotos (Unsplash) e as avaliações são de exemplo.
 
@@ -78,4 +80,4 @@ Você vai precisar do [Node.js](https://nodejs.org) 20 ou mais novo e de uma con
 
 ## Publicando
 
-O projeto pode ser publicado na [Vercel](https://vercel.com): importe o repositório e cadastre as variáveis do `.env.example` (`DATABASE_URL`, `DIRECT_URL` e `AGENDA_SENHA`) nas configurações do projeto. Sem a `AGENDA_SENHA`, a agenda fica fechada no site publicado, para não expor os dados dos clientes.
+O site está publicado na [Vercel](https://vercel.com), que atualiza sozinha a cada envio para o ramo `main`. Para publicar a sua cópia: importe o repositório e cadastre as variáveis do `.env.example` (`DATABASE_URL`, `DIRECT_URL` e `AGENDA_SENHA`) nas configurações do projeto. Sem a `AGENDA_SENHA`, a agenda fica fechada no site publicado, para não expor os dados dos clientes.
