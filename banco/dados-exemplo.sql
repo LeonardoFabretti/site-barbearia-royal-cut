@@ -1,7 +1,7 @@
 -- Dados de exemplo: um profissional, o horário de trabalho e os serviços.
 -- Rode depois de estrutura.sql.
 
-insert into profissionais (nome) values ('Henrique');
+insert into profissionais (nome) values ('Leonardo');
 
 -- terça (2) a sábado (6), das 9h às 19h, com almoço das 12h às 13h
 insert into expediente (profissional_id, dia_semana, inicio, fim)
@@ -9,7 +9,7 @@ select p.id, d.dia, h.inicio, h.fim
 from profissionais p
 cross join (values (2), (3), (4), (5), (6)) as d(dia)
 cross join (values (time '09:00', time '12:00'), (time '13:00', time '19:00')) as h(inicio, fim)
-where p.nome = 'Henrique';
+where p.nome = 'Leonardo';
 
 insert into servicos (nome, preco, duracao_min, categoria) values
   -- barbearia
