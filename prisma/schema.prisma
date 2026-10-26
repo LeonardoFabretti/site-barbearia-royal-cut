@@ -1,0 +1,67 @@
+// Espelho das tabelas criadas no Supabase pelo SQL Editor.
+// O banco é a fonte da verdade: para atualizar este arquivo, rode `npx prisma db pull`.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model servicos {
+  id           BigInt         @id @default(autoincrement())
+  created_at   DateTime       @default(now()) @db.Timestamptz(6)
+  nome         String
+  preco        Decimal        @db.Decimal
+  duracao_min  Int
+  ativo        Boolean        @default(true)
+  // 'masculino' ou 'feminino' (check constraint no banco)
+  categoria    String         @default("masculino")
+  agendamentos agendamentos[]
+}
+
+model profissionais {
+  id           BigInt         @id @default(autoincrement())
+  created_at   DateTime       @default(now()) @db.Timestamptz(6)
+  nome         String
+  telefone     String?
+  ativo        Boolean        @default(true)
+  expediente   expediente[]
+  agendamentos agendamentos[]
+}
+
+model expediente {
+  id              BigInt        @id @default(autoincrement())
+  profissional_id BigInt
+  dia_semana      Int           @db.SmallInt
+  inicio          DateTime      @db.Time(6)
+  fim             DateTime      @db.Time(6)
+  profissionais   profissionais @relation(fields: [profissional_id], references: [id], onDelete: Cascade)
+}
+
+model clientes {
+  id           BigInt         @id @default(autoincrement())
+  created_at   DateTime       @default(now()) @db.Timestamptz(6)
+  nome         String
+  celular      String         @unique
+  agendamentos agendamentos[]
+}
+
+// No banco existe também a trava `sem_horario_duplicado` (exclude using gist),
+// que o Prisma não representa: um horário sobreposto falha com o código 23P01.
+model agendamentos {
+  id              BigInt        @id @default(autoincrement())
+  created_at      DateTime      @default(now()) @db.Timestamptz(6)
+  profissional_id BigInt
+  servico_id      BigInt
+  cliente_id      BigInt
+  inicio          DateTime      @db.Timestamptz(6)
+  fim             DateTime      @db.Timestamptz(6)
+  preco           Decimal       @db.Decimal
+  status          String        @default("confirmado")
+  profissionais   profissionais @relation(fields: [profissional_id], references: [id])
+  servicos        servicos      @relation(fields: [servico_id], references: [id])
+  clientes        clientes      @relation(fields: [cliente_id], references: [id])
+}

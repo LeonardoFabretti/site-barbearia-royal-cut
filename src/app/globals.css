@@ -1,0 +1,262 @@
+@import "tailwindcss";
+
+/* ---------- Tema: preto e dourado (padrão) e modo claro ---------- */
+
+:root,
+[data-tema="escuro"] {
+  --fundo: #0a0a0b;
+  --superficie: #131315;
+  --superficie-2: #1b1b1e;
+  --borda: #2a2a2e;
+  --texto: #f6f1e7;
+  --texto-suave: #a9a39a;
+  --dourado: #d4af37;
+  --dourado-claro: #f3d98b;
+  --dourado-texto: #e0bf5c;
+  --sobre-dourado: #0a0a0b;
+  --sombra: 0 14px 30px -18px rgb(0 0 0 / 0.75);
+  /* enfeites dos fundos */
+  --brilho: rgb(212 175 55 / 0.07);
+  --brilho-logo: rgb(212 175 55 / 0.28);
+  --pontos: rgb(212 175 55 / 0.08);
+  --veu-topo: rgb(10 10 11 / 0.85);
+  color-scheme: dark;
+}
+
+[data-tema="claro"] {
+  --fundo: #f8f2e7;
+  --superficie: #fffdf8;
+  --superficie-2: #f1e7d3;
+  --borda: #e4d5b6;
+  --texto: #1a160f;
+  --texto-suave: #5c5446;
+  --dourado: #c19a35;
+  --dourado-claro: #e3c46e;
+  --dourado-texto: #8c6b1b;
+  --sobre-dourado: #1a160f;
+  --sombra: 0 14px 30px -20px rgb(110 80 20 / 0.35);
+  --brilho: rgb(193 154 53 / 0.18);
+  --brilho-logo: rgb(193 154 53 / 0.35);
+  --pontos: rgb(140 107 27 / 0.13);
+  --veu-topo: rgb(248 242 231 / 0.94);
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-fundo: var(--fundo);
+  --color-superficie: var(--superficie);
+  --color-superficie-2: var(--superficie-2);
+  --color-borda: var(--borda);
+  --color-texto: var(--texto);
+  --color-texto-suave: var(--texto-suave);
+  --color-dourado: var(--dourado);
+  --color-dourado-claro: var(--dourado-claro);
+  --color-dourado-texto: var(--dourado-texto);
+  --color-sobre-dourado: var(--sobre-dourado);
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-playfair);
+}
+
+html {
+  overflow-x: clip;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  /* as animações que entram pela lateral não podem criar rolagem para o lado */
+  overflow-x: clip;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Texto com degradê dourado (parado: a animação infinita pesava na rolagem) */
+.texto-ouro {
+  background: linear-gradient(100deg, var(--dourado-texto) 0%, var(--dourado-claro) 50%, var(--dourado) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sombra {
+  box-shadow: var(--sombra);
+}
+
+/* Primeira letra maiúscula ("terça-feira, 27 de outubro" → "Terça-feira, …") */
+.capitalize-first::first-letter {
+  text-transform: uppercase;
+}
+
+/* ---------- Fundos decorados das seções ---------- */
+
+/* véu sobre a foto do topo: no modo claro fica mais forte, para o texto ficar legível */
+.veu-topo {
+  background:
+    radial-gradient(70rem 40rem at 25% 50%, var(--veu-topo), transparent 75%),
+    var(--veu-topo);
+}
+
+/* brilhos dourados suaves nos cantos */
+.fundo-brilho {
+  background-image:
+    radial-gradient(45rem 28rem at 0% 0%, var(--brilho), transparent 70%),
+    radial-gradient(45rem 28rem at 100% 100%, var(--brilho), transparent 70%);
+}
+
+/* trama de pontinhos dourados, mais forte no centro */
+.fundo-pontos {
+  position: relative;
+  isolation: isolate;
+}
+.fundo-pontos::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(var(--pontos) 1.2px, transparent 1.4px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 80%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 80%);
+  pointer-events: none;
+}
+
+/* linhas diagonais finas, como um tecido */
+.fundo-linhas {
+  background-color: color-mix(in srgb, var(--superficie-2) 60%, transparent);
+  background-image:
+    radial-gradient(40rem 25rem at 100% 0%, var(--brilho), transparent 70%),
+    repeating-linear-gradient(135deg, var(--pontos) 0 1px, transparent 1px 16px);
+}
+
+/* fio dourado no topo da seção, com um losango no meio */
+.divisor {
+  position: relative;
+}
+.divisor::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(36rem, 80%);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--dourado), transparent);
+  opacity: 0.55;
+}
+.divisor > .losango {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translateX(-50%) rotate(45deg);
+  background: var(--dourado);
+  box-shadow: 0 0 0 4px var(--fundo);
+}
+
+/* ---------- Animações ---------- */
+
+@keyframes subir {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+    transform: scale(0.85) rotate(-8deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes flutuar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes aproximar {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Entrada do topo, ao abrir a página */
+.entrar {
+  animation: subir 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.entrar-logo {
+  animation: surgir 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s both;
+}
+.flutuar {
+  animation: flutuar 6s ease-in-out infinite;
+  will-change: transform;
+}
+.fundo-zoom {
+  animation: aproximar 2.4s ease-out both;
+}
+
+/* Elementos que aparecem ao rolar a tela (componente <Revelar>) */
+.revelar {
+  opacity: 0;
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--atraso, 0ms);
+}
+.revelar[data-efeito="subir"] {
+  transform: translateY(36px);
+}
+.revelar[data-efeito="esquerda"] {
+  transform: translateX(-40px);
+}
+.revelar[data-efeito="direita"] {
+  transform: translateX(40px);
+}
+.revelar[data-efeito="zoom"] {
+  transform: scale(0.94);
+}
+.revelar.visivel {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .revelar {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Mapa do Google: no modo escuro, inverte as cores para combinar com a página */
+[data-tema="escuro"] .mapa {
+  filter: grayscale(0.4) invert(0.9) hue-rotate(180deg) contrast(0.9);
+}
